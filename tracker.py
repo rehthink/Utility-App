@@ -57,10 +57,89 @@ with st.sidebar:
         selected_columns = st.multiselect("Select columns to display:", valid_columns, default=[col for col in default_columns if col in valid_columns])
 
 ### **🔹 Tab 1: Summary**
+# with tab1:
+
+#     # **📌 Move Summary Heading ABOVE Tabs**
+#     st.markdown("<h2 style='text-align: left; font-size: 2px;'>Summary of Usage - March 2025</h2>", unsafe_allow_html=True)
+
+#     if not df.empty:
+#         try:
+#             # **Identify Required Columns**
+#             outstanding_due_col = next((col for col in df.columns if "Outstanding Due" in str(col)), None)
+#             outstanding_readings_col = next((col for col in df.columns if "Outstanding Readings" in str(col)), None)
+#             payment_col = next((col for col in df.columns if "Payment" in str(col)), None)
+#             total_amount_col = next((col for col in df.columns if "Amount Per Meter" in str(col)), None)
+
+#             if not all([outstanding_due_col, outstanding_readings_col, payment_col]):
+#                 st.error("⚠ Some required columns are missing. Check sheet structure.")
+#             else:
+#                 # # **Filter Floor Rows Only**
+#                 # floor_data = df[~df.iloc[:, 0].str.contains("Readings", na=False, case=False)]
+
+#                 # **Filter Floor Rows Only (Excluding 'Collection Dated')**
+#                 floor_data = df[
+#                     (~df.iloc[:, 0].str.contains("Readings", na=False, case=False)) & 
+#                     (~df.iloc[:, 0].str.contains("Collection Dated : 14th March 2025", na=False, case=False))
+#                 ]
+
+#                 # **Convert to Numeric**
+#                 floor_data[outstanding_due_col] = floor_data[outstanding_due_col].astype(str).str.replace(r"[^\d.]", "", regex=True)
+#                 floor_data[outstanding_readings_col] = floor_data[outstanding_readings_col].astype(str).str.replace(r"[^\d.]", "", regex=True)
+#                 floor_data[outstanding_due_col] = pd.to_numeric(floor_data[outstanding_due_col], errors="coerce").fillna(0)
+#                 floor_data[outstanding_readings_col] = pd.to_numeric(floor_data[outstanding_readings_col], errors="coerce").fillna(0)
+
+#                 # ✅ **Total Outstanding Due**
+#                 total_outstanding_due = floor_data[outstanding_due_col].sum()
+
+#                 # ✅ **Rate per Unit**
+#                 rate_per_unit = df[total_amount_col].dropna().iloc[-1] if total_amount_col else "Not Available"
+
+#                 # **📌 Display Metrics (Centered, Lighter Text)**
+#                 st.markdown(
+#                     f"""
+#                         <div style="display: flex; justify-content: center; gap: 50px;">
+#                             <div style="text-align: center;">
+#                                 <p style="font-weight: bold; font-size: 20px;">💰 Outstanding Due</p>
+#                                 <p style="font-size: 16px; text-align: center;">₹{total_outstanding_due:,.2f}</p>
+#                             </div>
+#                             <div style="text-align: center;">
+#                                 <p style="font-weight: bold; font-size: 20px;">⚡ Rate per Unit</p>
+#                                 <p style="font-size: 16px; text-align: center;">{rate_per_unit}</p>
+#                             </div>
+#                         </div>
+#                     """,
+#                     unsafe_allow_html=True
+#                 )
+
+#                 # **📂 Categorize Flats by Payment**
+#                 paid_flats = floor_data[floor_data[payment_col].notna() & (floor_data[payment_col] != "")]
+#                 unpaid_flats = floor_data[floor_data[payment_col].isna() | (floor_data[payment_col] == "")]
+
+#                 # **📂 Expandable Paid Flats**
+#                 with st.expander("✅ Paid", expanded=False):
+#                     if not paid_flats.empty:
+#                         st.dataframe(paid_flats[[df.columns[0], outstanding_readings_col, outstanding_due_col]], use_container_width=True, hide_index=True)
+#                     else:
+#                         st.info("No paid flats available.")
+
+#                 # **📂 Expandable Unpaid Flats**
+#                 with st.expander("❌ Unpaid", expanded=False):
+#                     if not unpaid_flats.empty:
+#                         st.dataframe(unpaid_flats[[df.columns[0], outstanding_readings_col, outstanding_due_col]], use_container_width=True, hide_index=True)
+#                     else:
+#                         st.success("All flats have paid their dues! 🎉")
+
+#         except Exception as e:
+#             st.error(f"⚠ Error in summary calculation: {e}")
+
+#     else:
+#         st.error("⚠ No data available for summary.")
+
+### **🔹 Tab 1: Summary**
 with tab1:
 
     # **📌 Move Summary Heading ABOVE Tabs**
-    st.markdown("<h2 style='text-align: left; font-size: 21px;'>Summary of Usage - March 2025</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: left; font-size: 20px;'>Summary of Usage - March 2025</h2>", unsafe_allow_html=True)
 
     if not df.empty:
         try:
@@ -69,24 +148,26 @@ with tab1:
             outstanding_readings_col = next((col for col in df.columns if "Outstanding Readings" in str(col)), None)
             payment_col = next((col for col in df.columns if "Payment" in str(col)), None)
             total_amount_col = next((col for col in df.columns if "Amount Per Meter" in str(col)), None)
+            utilized_units_col = next((col for col in df.columns if "Outstanding Readings" in str(col)), None)
 
-            if not all([outstanding_due_col, outstanding_readings_col, payment_col]):
+            if not all([outstanding_due_col, outstanding_readings_col, payment_col, total_amount_col, utilized_units_col]):
                 st.error("⚠ Some required columns are missing. Check sheet structure.")
             else:
-                # # **Filter Floor Rows Only**
-                # floor_data = df[~df.iloc[:, 0].str.contains("Readings", na=False, case=False)]
-
                 # **Filter Floor Rows Only (Excluding 'Collection Dated')**
                 floor_data = df[
                     (~df.iloc[:, 0].str.contains("Readings", na=False, case=False)) & 
-                    (~df.iloc[:, 0].str.contains("Collection Dated : 14th March 2025", na=False, case=False))
+                    (~df.iloc[:, 0].str.contains("Collection Dated", na=False, case=False))
                 ]
 
-                # **Convert to Numeric**
-                floor_data[outstanding_due_col] = floor_data[outstanding_due_col].astype(str).str.replace(r"[^\d.]", "", regex=True)
-                floor_data[outstanding_readings_col] = floor_data[outstanding_readings_col].astype(str).str.replace(r"[^\d.]", "", regex=True)
-                floor_data[outstanding_due_col] = pd.to_numeric(floor_data[outstanding_due_col], errors="coerce").fillna(0)
-                floor_data[outstanding_readings_col] = pd.to_numeric(floor_data[outstanding_readings_col], errors="coerce").fillna(0)
+                # **Ensure Proper Numeric Conversion for Selected Columns**
+                for col in [outstanding_due_col, outstanding_readings_col, total_amount_col, utilized_units_col]:
+                    floor_data[col] = (
+                        floor_data[col]
+                        .astype(str)  # Convert to string first
+                        .str.replace(r"[^\d.]", "", regex=True)  # Remove non-numeric characters
+                        .replace("", "0")  # Replace empty strings with "0"
+                        .astype(float)  # Convert to float
+                    )
 
                 # ✅ **Total Outstanding Due**
                 total_outstanding_due = floor_data[outstanding_due_col].sum()
@@ -94,7 +175,13 @@ with tab1:
                 # ✅ **Rate per Unit**
                 rate_per_unit = df[total_amount_col].dropna().iloc[-1] if total_amount_col else "Not Available"
 
-                # **📌 Display Metrics (Centered, Lighter Text)**
+                # ✅ **Total Amount Per Meter**
+                total_amount_per_meter = floor_data[total_amount_col].sum()
+
+                # ✅ **Total Utilized Units**
+                total_utilized_units = floor_data[utilized_units_col].sum(skipna=True) if utilized_units_col else 0
+
+                # **📌 Display Metrics (Centered)**
                 st.markdown(
                     f"""
                         <div style="display: flex; justify-content: center; gap: 50px;">
@@ -105,6 +192,14 @@ with tab1:
                             <div style="text-align: center;">
                                 <p style="font-weight: bold; font-size: 20px;">⚡ Rate per Unit</p>
                                 <p style="font-size: 16px; text-align: center;">{rate_per_unit}</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="font-weight: bold; font-size: 20px;">💲 Due By Meter</p>
+                                <p style="font-size: 16px; text-align: center;">₹{total_amount_per_meter:,.2f}</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="font-weight: bold; font-size: 20px;">📊 Total Utilized Units</p>
+                                <p style="font-size: 16px; text-align: center;">{total_utilized_units:,.2f} kWh</p>
                             </div>
                         </div>
                     """,
@@ -134,6 +229,7 @@ with tab1:
 
     else:
         st.error("⚠ No data available for summary.")
+
 
 ### **🔹 Tab 2: Preview Data**
 with tab2:
