@@ -40,6 +40,27 @@ def get_sheet_data():
 # Streamlit UI
 st.set_page_config(layout="wide")  # Wide layout for better table display
 
+# Apply Light Theme in UI elements
+light_theme_css = """
+    <style>
+        /* Force Light Mode */
+        body {
+            color: black !important;
+            background-color: white !important;
+        }
+        [data-testid="stAppViewContainer"] {
+            background-color: white !important;
+        }
+        [data-testid="stSidebar"] {
+            background-color: #f8f9fa !important;
+        }
+        [data-testid="stHeader"] {
+            background-color: white !important;
+        }
+    </style>
+"""
+st.markdown(light_theme_css, unsafe_allow_html=True)
+
 # **🔄 Add a Refresh Button**
 if st.button("🔄 Refresh Data"):
     st.cache_data.clear()  # **Clear cached data**
