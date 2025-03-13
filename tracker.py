@@ -60,7 +60,7 @@ with st.sidebar:
 with tab1:
 
     # **📌 Move Summary Heading ABOVE Tabs**
-    st.markdown("<h2 style='text-align: left; font-size: 22px;'>Summary of Usage - March 2025</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: left; font-size: 21px;'>Summary of Usage - March 2025</h2>", unsafe_allow_html=True)
 
     if not df.empty:
         try:
@@ -73,8 +73,14 @@ with tab1:
             if not all([outstanding_due_col, outstanding_readings_col, payment_col]):
                 st.error("⚠ Some required columns are missing. Check sheet structure.")
             else:
-                # **Filter Floor Rows Only**
-                floor_data = df[~df.iloc[:, 0].str.contains("Readings", na=False, case=False)]
+                # # **Filter Floor Rows Only**
+                # floor_data = df[~df.iloc[:, 0].str.contains("Readings", na=False, case=False)]
+
+                # **Filter Floor Rows Only (Excluding 'Collection Dated')**
+                floor_data = df[
+                    (~df.iloc[:, 0].str.contains("Readings", na=False, case=False)) & 
+                    (~df.iloc[:, 0].str.contains("Collection Dated : 14th March 2025", na=False, case=False))
+                ]
 
                 # **Convert to Numeric**
                 floor_data[outstanding_due_col] = floor_data[outstanding_due_col].astype(str).str.replace(r"[^\d.]", "", regex=True)
