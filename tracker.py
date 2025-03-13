@@ -2,10 +2,13 @@ import streamlit as st
 import pandas as pd
 import requests
 
+# **✅ Move set_page_config() to the First Line**
+st.set_page_config(layout="wide")  # Wide layout for better table display
+
 # Function to fetch data from a public Google Sheet
-@st.cache_data(show_spinner="Please be patience, Loading data...")  # Cache data but allow clearing
+@st.cache_data(show_spinner="Please be patient, Loading data...")  # Cache data but allow clearing
 def get_sheet_data():
-    url = f"https://docs.google.com/spreadsheets/d/e/2PACX-1vRQRxRRMDN4KnkEX3W1EwF8lbyPyCCtUm12Cr9laFY_lufeyYUxnsd4vqy8CiBeaya0XQBgY5VCbzQL/pub?gid=2016442985&single=true&output=csv"
+    url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRQRxRRMDN4KnkEX3W1EwF8lbyPyCCtUm12Cr9laFY_lufeyYUxnsd4vqy8CiBeaya0XQBgY5VCbzQL/pub?gid=2016442985&single=true&output=csv"
 
     try:
         # Read CSV data
@@ -37,34 +40,11 @@ def get_sheet_data():
         st.error(f"Error loading data: {e}")
         return pd.DataFrame(), "Data Not Available"
 
-# Streamlit UI
-st.set_page_config(layout="wide")  # Wide layout for better table display
-
-# # Apply Light Theme in UI elements
-# light_theme_css = """
-#     <style>
-#         /* Force Light Mode */
-#         body {
-#             color: black !important;
-#             background-color: white !important;
-#         }
-#         [data-testid="stAppViewContainer"] {
-#             background-color: white !important;
-#         }
-#         [data-testid="stSidebar"] {
-#             background-color: #f8f9fa !important;
-#         }
-#         [data-testid="stHeader"] {
-#             background-color: white !important;
-#         }
-#     </style>
-# """
-# st.markdown(light_theme_css, unsafe_allow_html=True)
-
-# **🔄 Add a Refresh Button**
-if st.button("🔄 Refresh Data"):
-    st.cache_data.clear()  # **Clear cached data**
-    st.rerun()  # **Force UI refresh**
+# **🔄 Add a Refresh Button in Sidebar**
+with st.sidebar:
+    if st.button("🔄 Refresh Data"):
+        st.cache_data.clear()  # **Clear cached data**
+        st.rerun()  # **Force UI refresh**
 
 df, app_title = get_sheet_data()
 
@@ -81,23 +61,9 @@ st.markdown(
 # **📌 Create Tabs**
 tab1, tab2 = st.tabs(["📋 Preview Data", "📊 Summary"])
 
-### **🔹 Tab 1: Preview Data**
-# with tab1:
-#     st.subheader("Meter Readings & Bills")
-
-#     if not df.empty:
-#         valid_columns = df.columns.tolist()  # A2:K2 used as column names
-
-#         # Let user select valid columns
-#         selected_columns = st.multiselect("Select columns to display:", valid_columns, default=valid_columns)
-
-#         # Display selected columns with auto-fit width and **HIDE index**
-#         st.dataframe(df[selected_columns], use_container_width=True, hide_index=True)
-#     else:
-#         st.error("⚠ Failed to load data. Please check the Google Sheet settings.")
-
-with tab1:
-    st.subheader("Meter Readings & Bills")
+### **🔹 Move Column Selection to Sidebar**
+with st.sidebar:
+    st.header("⚙️ Configure Display")
 
     if not df.empty:
         valid_columns = df.columns.tolist()
@@ -119,11 +85,15 @@ with tab1:
             default=[col for col in default_columns if col in valid_columns]
         )
 
+### **🔹 Tab 1: Preview Data**
+with tab1:
+    st.subheader("Meter Readings & Bills")
+
+    if not df.empty:
         # **Display selected columns (Hiding index)**
         st.dataframe(df[selected_columns], use_container_width=True, hide_index=True)
     else:
         st.error("⚠ Failed to load data. Please check the Google Sheet settings.")
-
 
 ### **🔹 Tab 2: Summary**
 with tab2:
