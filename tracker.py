@@ -51,7 +51,7 @@ df, app_title = get_sheet_data()
 # **📌 Center Align Title using HTML & CSS**
 st.markdown(
     f"""
-    <h1 style="text-align: center; font-size: 36px; color: #1F4E79;">
+    <h1 style="text-align: center; font-size: 26px; color: #1F4E79;">
         📊 {app_title}
     </h1>
     """,
