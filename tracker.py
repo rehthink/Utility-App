@@ -91,16 +91,16 @@ with tab1:
                 # **📌 Display Metrics (Centered, Lighter Text)**
                 st.markdown(
                     f"""
-                    <div style="display: flex; justify-content: center; gap: 1px;">
-                        <div style="text-align: center;">
-                            <h6>💰Outstanding Due</h6>
-                            <p style="font-size: 20px; text-align: center;">₹{total_outstanding_due:,.2f}</p>
+                        <div style="display: flex; justify-content: center; gap: 50px;">
+                            <div style="text-align: center;">
+                                <p style="font-weight: bold; font-size: 20px;">💰 Outstanding Due</p>
+                                <p style="font-size: 16px; text-align: center;">₹{total_outstanding_due:,.2f}</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="font-weight: bold; font-size: 20px;">⚡ Rate per Unit</p>
+                                <p style="font-size: 16px; text-align: center;">{rate_per_unit}</p>
+                            </div>
                         </div>
-                        <div style="text-align: center;">
-                            <h6>⚡ Rate per Unit</h6>
-                            <p style="font-size: 20px; text-align: center;">{rate_per_unit}</p>
-                        </div>
-                    </div>
                     """,
                     unsafe_allow_html=True
                 )
