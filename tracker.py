@@ -185,27 +185,27 @@ with tab1:
                 # **📌 Display Metrics in Two Rows**
                 st.markdown(
                     f"""
-                        <div style="display: flex; gap: 10px;">
+                        <div style="display: flex; gap: 1px;">
                             <div style="text-align: center;">
                                 <p style="font-weight: bold; font-size: 20px;">💲 Generated Bill</p>
-                                <p style="font-size: 16px; text-align: center;">₹{total_amount_per_meter:,.2f}</p>
+                                <p style="font-size: 18px; text-align: center;">₹{total_amount_per_meter:,.2f}</p>
                             </div>
-                            <div style="text-align: center;">
+                            <div style="text-align: center; margin-left: 35px;">
                                 <p style="font-weight: bold; font-size: 20px;">📊 Utilized Units</p>
-                                <p style="font-size: 16px; text-align: center;">{total_utilized_units:,.2f} kWh</p>
+                                <p style="font-size: 18px; text-align: center;">{total_utilized_units:,.2f} kWh</p>
                             </div>
                         </div>
 
                         <br>
 
-                        <div style="display: flex; gap: 10px;">
+                        <div style="display: flex; gap: 1px; margin-top: -30px;">
                             <div style="text-align: center;">
                                 <p style="font-weight: bold; font-size: 20px;">💰 Outstanding Due</p>
-                                <p style="font-size: 16px; text-align: center;">₹{total_outstanding_due:,.2f}</p>
+                                <p style="font-size: 18px; text-align: center;">₹{total_outstanding_due:,.2f}</p>
                             </div>
-                            <div style="text-align: center;">
+                            <div style="text-align: center; margin-left: 10px;">
                                 <p style="font-weight: bold; font-size: 20px;">⚡ Rate per Unit</p>
-                                <p style="font-size: 16px; text-align: center;">{rate_per_unit}</p>
+                                <p style="font-size: 18px; text-align: center;">{rate_per_unit}</p>
                             </div>
                         </div>
 
