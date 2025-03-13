@@ -93,12 +93,12 @@ with tab1:
                     f"""
                     <div style="display: flex; justify-content: center; gap: 50px;">
                         <div style="text-align: center;">
-                            <h3>💰 Total Outstanding Due</h3>
-                            <p style="font-size: 18px;">₹{total_outstanding_due:,.2f}</p>
+                            <h3>💰 Total Due</h3>
+                            <p style="font-size: 14px;">₹{total_outstanding_due:,.2f}</p>
                         </div>
                         <div style="text-align: center;">
                             <h3>⚡ Rate per Unit</h3>
-                            <p style="font-size: 18px;">{rate_per_unit}</p>
+                            <p style="font-size: 14px;">{rate_per_unit}</p>
                         </div>
                     </div>
                     """,
