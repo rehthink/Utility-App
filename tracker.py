@@ -182,9 +182,23 @@ with tab1:
                 total_utilized_units = floor_data[utilized_units_col].sum(skipna=True) if utilized_units_col else 0
 
                 # **📌 Display Metrics (Centered)**
+                # **📌 Display Metrics in Two Rows**
                 st.markdown(
                     f"""
-                        <div style="display: flex; justify-content: center; gap: 50px;">
+                        <div style="display: flex; justify-content: center; gap: 80px;">
+                            <div style="text-align: center;">
+                                <p style="font-weight: bold; font-size: 20px;">💲 Total Due By Meter</p>
+                                <p style="font-size: 16px; text-align: center;">₹{total_amount_per_meter:,.2f}</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <p style="font-weight: bold; font-size: 20px;">📊 Total Utilized Units</p>
+                                <p style="font-size: 16px; text-align: center;">{total_utilized_units:,.2f} kWh</p>
+                            </div>
+                        </div>
+
+                        <br>
+
+                        <div style="display: flex; justify-content: center; gap: 80px;">
                             <div style="text-align: center;">
                                 <p style="font-weight: bold; font-size: 20px;">💰 Outstanding Due</p>
                                 <p style="font-size: 16px; text-align: center;">₹{total_outstanding_due:,.2f}</p>
@@ -193,15 +207,8 @@ with tab1:
                                 <p style="font-weight: bold; font-size: 20px;">⚡ Rate per Unit</p>
                                 <p style="font-size: 16px; text-align: center;">{rate_per_unit}</p>
                             </div>
-                            <div style="text-align: center;">
-                                <p style="font-weight: bold; font-size: 20px;">💲 Due By Meter</p>
-                                <p style="font-size: 16px; text-align: center;">₹{total_amount_per_meter:,.2f}</p>
-                            </div>
-                            <div style="text-align: center;">
-                                <p style="font-weight: bold; font-size: 20px;">📊 Total Utilized Units</p>
-                                <p style="font-size: 16px; text-align: center;">{total_utilized_units:,.2f} kWh</p>
-                            </div>
                         </div>
+
                     """,
                     unsafe_allow_html=True
                 )
