@@ -185,7 +185,7 @@ with tab1:
                 # **📌 Display Metrics in Two Rows**
                 st.markdown(
                     f"""
-                        <div style="display: flex; justify-content: center; gap: 10px;">
+                        <div style="display: flex; gap: 10px;">
                             <div style="text-align: center;">
                                 <p style="font-weight: bold; font-size: 20px;">💲 Generated Bill</p>
                                 <p style="font-size: 16px; text-align: center;">₹{total_amount_per_meter:,.2f}</p>
@@ -198,7 +198,7 @@ with tab1:
 
                         <br>
 
-                        <div style="display: flex; justify-content: center; gap: 10px;">
+                        <div style="display: flex; gap: 10px;">
                             <div style="text-align: center;">
                                 <p style="font-weight: bold; font-size: 20px;">💰 Outstanding Due</p>
                                 <p style="font-size: 16px; text-align: center;">₹{total_outstanding_due:,.2f}</p>
