@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 # **🔹 Function to Fetch Data from Google Sheet**
 @st.cache_data(show_spinner="Loading data, please wait...")
 def get_sheet_data():
-    url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRQRxRRMDN4KnkEX3W1EwF8lbyPyCCtUm12Cr9laFY_lufeyYUxnsd4vqy8CiBeaya0XQBgY5VCbzQL/pub?gid=2016442985&single=true&output=csv"
+    url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRQRxRRMDN4KnkEX3W1EwF8lbyPyCCtUm12Cr9laFY_lufeyYUxnsd4vqy8CiBeaya0XQBgY5VCbzQL/pub?gid=1497959222&single=true&output=csv"
 
     try:
         df = pd.read_csv(url, on_bad_lines="skip", encoding="utf-8", header=None)
